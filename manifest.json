@@ -1,0 +1,28 @@
+{
+    "name": "Infinite Address Generator",
+    "description": "Generate email addresses",
+    "version": "1.0",
+    "manifest_version": 3,
+    "permissions": [
+        "contextMenus",
+        "activeTab",
+        "storage"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "*://*/*"
+            ],
+            "js": [
+                "dist/content_script.js"
+            ]
+        }
+    ],
+    "options_ui": {
+        "page": "options.html",
+        "open_in_tab": false
+    }
+}
