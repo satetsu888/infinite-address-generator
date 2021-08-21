@@ -17,12 +17,12 @@
                 "*://*/*"
             ],
             "js": [
-                "dist/content_script.js"
+                "content_script.js"
             ]
         }
     ],
     "options_ui": {
-        "page": "dist/options.html",
+        "page": "options.html",
         "open_in_tab": false
     }
 }

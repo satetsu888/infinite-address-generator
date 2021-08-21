@@ -1,8 +1,7 @@
 import path from 'path'
+import CopyWebpackPlugin from 'copy-webpack-plugin'
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
-
-import CopyWebpackPlugin from 'copy-webpack-plugin'
 
 const config = () => {
     return {
@@ -35,8 +34,7 @@ const config = () => {
             }),
             new CopyWebpackPlugin({
                 patterns: [
-                    { from: 'public', to: '.' },
-                    { from: 'dist/background.js', to: '../background.js' }
+                    { from: 'static', to: '.' },
                 ]
             })
         ]
