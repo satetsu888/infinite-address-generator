@@ -16,7 +16,13 @@ chrome.runtime.onInstalled.addListener(() => {
         // TODO: データがないときはオプション画面を案内する
         const DEFAULT_USER_NAME_TEMPLATE = 'default-template'
         const DEFAULT_DOMAIN = 'example.com'
-        const data = await chrome.storage.sync.get(['address.domain', 'address.usernameTemplate'])
+        const data = await ((): Promise<any> => {
+            return new Promise((resolve, reject) => {
+                chrome.storage.sync.get(['address.domain', 'address.usernameTemplate'], (data) => {
+                    resolve(data)
+                })
+            })
+        })()
         const usernameTemplate = typeof data['address.usernameTemplate'] === 'string' ? data['address.usernameTemplate'] : DEFAULT_USER_NAME_TEMPLATE
         const domain = typeof data['address.domain'] === 'string' ? data['address.domain'] : DEFAULT_DOMAIN
 
