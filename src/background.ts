@@ -35,10 +35,9 @@ const generateAddress = async (context: buildUserNameContextType): Promise<strin
 const buildUserName = (template_string: string, context: buildUserNameContextType): string => {
     let userName = template_string
 
-    for (const key in context) {
-        if (Object.prototype.hasOwnProperty.call(context, key)) {
-            userName = userName.replace(key, context[key])
-        }
-    }
+    Object.entries(context).forEach(([key, value]) => {
+        userName = userName.replace(key, value)
+    })
+
     return userName
 }
