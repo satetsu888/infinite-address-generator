@@ -1,4 +1,5 @@
-import { buildUserNameContext, buildUserNameContextType } from './utils'
+import { buildUserNameContextFromTab, buildUserNameContextType } from './utils'
+import { generateAddress } from './domain/address'
 
 chrome.runtime.onInstalled.addListener(() => {
     chrome.contextMenus.create({
@@ -12,32 +13,18 @@ chrome.runtime.onInstalled.addListener(() => {
         if (!tab?.id) { return }
         console.debug(tab)
 
-        const context: buildUserNameContextType = buildUserNameContext(tab)
-        const address: string = await generateAddress(context)
+        // TODO: データがないときはオプション画面を案内する
+        const DEFAULT_USER_NAME_TEMPLATE = 'default-template'
+        const DEFAULT_DOMAIN = 'example.com'
+        const data = await chrome.storage.sync.get(['address.domain', 'address.usernameTemplate'])
+        const usernameTemplate = typeof data['address.usernameTemplate'] === 'string' ? data['address.usernameTemplate'] : DEFAULT_USER_NAME_TEMPLATE
+        const domain = typeof data['address.domain'] === 'string' ? data['address.domain'] : DEFAULT_DOMAIN
+
+        const context: buildUserNameContextType = buildUserNameContextFromTab(tab)
+
+        const address: string = generateAddress(usernameTemplate, domain, context)
         console.log(address)
+
         chrome.tabs.sendMessage(tab.id, { action: 'paste_address', params: { address: address } })
     })
 })
-
-const DEFAULT_USER_NAME_TEMPLATE = 'default-template'
-const DEFAULT_DOMAIN = 'example.com'
-
-const generateAddress = async (context: buildUserNameContextType): Promise<string> => {
-    return new Promise((resolve, reject) => {
-        chrome.storage.sync.get(['address.domain', 'address.usernameTemplate'], (data) => {
-            const userName = typeof data['address.usernameTemplate'] === 'string' ? buildUserName(data['address.usernameTemplate'], context) : DEFAULT_USER_NAME_TEMPLATE
-            const address = typeof data['address.domain'] === 'string' ? `${userName}@${data['address.domain']}` : DEFAULT_DOMAIN
-            resolve(address)
-        })
-    })
-}
-
-const buildUserName = (template_string: string, context: buildUserNameContextType): string => {
-    let userName = template_string
-
-    Object.entries(context).forEach(([key, value]) => {
-        userName = userName.replace(key, value)
-    })
-
-    return userName
-}
