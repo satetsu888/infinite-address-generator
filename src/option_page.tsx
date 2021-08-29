@@ -1,7 +1,10 @@
 import { h, render, FunctionComponent } from 'preact'
 import { useState, useEffect, useCallback } from 'preact/hooks'
+import { css } from 'goober'
+
 import { generateAddress } from './domain/address';
 import { buildUserNameContextType } from './utils';
+
 
 /** @jsx h */
 
@@ -41,6 +44,7 @@ const Options: FunctionComponent = () => {
         }
     }, [])
 
+
     return (
         <div>
             <input type="text" value={usernameTemplate} onInput={usernameTemplateChangeCallback} />
@@ -49,7 +53,7 @@ const Options: FunctionComponent = () => {
 
             {sampleAddress}
 
-            <button onClick={
+            <button className={css`width: 300px;`} onClick={
                 () => {
                     chrome.storage.sync.set({
                         'address.domain': domain,
