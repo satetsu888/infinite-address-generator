@@ -29,7 +29,7 @@
         "webpack-merge": "5.8.0"
     },
     "dependencies": {
-        "goober": "^2.0.41",
+        "goober": "2.0.41",
         "preact": "10.5.14"
     }
 }
