@@ -10,7 +10,7 @@
     "author": "satetsu888",
     "license": "MIT",
     "devDependencies": {
-        "@types/chrome": "0.0.157",
+        "@types/chrome": "0.0.158",
         "@types/copy-webpack-plugin": "8.0.1",
         "@types/webpack": "5.28.0",
         "@types/webpack-merge": "5.0.0",
