@@ -30,6 +30,6 @@
     },
     "dependencies": {
         "goober": "2.0.41",
-        "preact": "10.6.1"
+        "preact": "10.24.3"
     }
 }
